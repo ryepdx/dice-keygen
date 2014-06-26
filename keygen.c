@@ -62,12 +62,9 @@ int main() {
     while(is_power_of_two(rng_ceil = get_rng_ceil()) == 0) {
         puts("Sorry, I can only use powers of 2!");       
     }
-
-    while (is_power_of_two(key_size = get_key_size()) == 0) {
-        puts("Sorry, I can only use powers of 2!");
-    }
-
     bit_length = get_bit_length(rng_ceil);
+
+    key_size = get_key_size()
 
     while (bits < key_size) {
         bits += bit_length;
