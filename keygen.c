@@ -56,18 +56,22 @@ int main() {
     unsigned int bit_length;
     unsigned int rng_ceil;
     unsigned int key_size;
-    unsigned int key = 0;
-    unsigned int bits = 0;
+    unsigned int key;
+    unsigned int bits;
+    char generate_keys = 'y';
 
     while(is_power_of_two(rng_ceil = get_rng_ceil()) == 0) {
         puts("Sorry, I can only use powers of 2!");       
     }
     bit_length = get_bit_length(rng_ceil);
 
-    key_size = get_key_size()
+    while (generate_keys == 'y' || generate_keys == 'Y') {
+        bits = 0;
+        key = 0;
+        key_size = get_key_size();
 
-    while (bits < key_size) {
-        bits += bit_length;
+        while (bits < key_size) {
+            bits += bit_length;
 
         if (bits > key_size) {
             key = (key * (int) pow(2, key_size % bit_length)) + ((get_rng_input(rng_ceil)-1) & ((int) pow(2, (key_size % bit_length)+1)-1));
@@ -77,9 +81,14 @@ int main() {
         }
 
         printf("%d of %d bits generated...\n", bits, key_size);
-    }
+        printf("Your key is %x\n", key);
+        puts("Generate another? [y/n]");
 
-    printf("Your key is %x\n", key);
+        generate_keys = getchar();
+        while (generate_keys != 'y' && generate_keys != 'Y' && generate_keys != 'n' && generate_keys != 'N') {
+            generate_keys = getchar();
+        }
+    }
     
     return 0;
 }
