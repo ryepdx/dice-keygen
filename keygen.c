@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <math.h>
 
 unsigned int get_rng_ceil() {
     unsigned int rng_ceil;
@@ -37,7 +36,7 @@ unsigned int get_key_size() {
 unsigned int get_bit_length(unsigned int rng_ceil) {
     unsigned int size = 0;
 
-    while (pow(2, size) < rng_ceil) { size++; }
+    while (1 << size < rng_ceil) { size++; }
 
     return size;
 }
@@ -73,14 +72,16 @@ int main() {
         while (bits < key_size) {
             bits += bit_length;
 
-        if (bits > key_size) {
-            key = (key * (int) pow(2, key_size % bit_length)) + ((get_rng_input(rng_ceil)-1) & ((int) pow(2, (key_size % bit_length)+1)-1));
-            bits = key_size;
-        } else {
-            key = (key * (int) pow(2, bit_length)) + (get_rng_input(rng_ceil)-1);
+            if (bits > key_size) {
+                key = (key << (key_size % bit_length)) | ((get_rng_input(rng_ceil)-1) & ((1 << ((key_size % bit_length)+1))-1));
+                bits = key_size;
+            } else {
+                key = (key << bit_length) | (get_rng_input(rng_ceil)-1);
+            }
+
+            printf("%d of %d bits generated...\n", bits, key_size);
         }
 
-        printf("%d of %d bits generated...\n", bits, key_size);
         printf("Your key is %x\n", key);
         puts("Generate another? [y/n]");
 

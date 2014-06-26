@@ -5,6 +5,6 @@ A command line app that prompts the user to enter inputs from coin flips, or 4, 
 
 Build instructions:
 
-    gcc -o keygen keygen.c -lm
+    gcc -o keygen keygen.c
 
 
