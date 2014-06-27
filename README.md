@@ -12,6 +12,6 @@ If you are using this utility to create a Bitcoin private key, specify a bit len
 To go from the hexadecimal private key to a Bitcoin private key and public address with bash (preferably using a Linux live image on an offline, air-gapped computer), use [Lucien Grondilu's bitcoin-bash-tools](https://github.com/grondilu/bitcoin-bash-tools). Assuming you go this route and download `bitcoin.sh` from that project, use it like so:
 
     source bitcoin.sh
-    newBitcoinKey 0x<your hexadecimal key goes here>
+    newBitcoinKey <your hexadecimal key goes here>
 
 I've also included a copy of Lucien's script in this repository in case the one hosted under his account ever goes offline or is compromised.
