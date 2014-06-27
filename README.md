@@ -1,6 +1,8 @@
 dice-keygen
 ===========
 
+**WARNING:** I'd been away from C so long, I forgot to take into account type constraints. I'm using the wrong types for integers which means this thing can't reliably generate 256-bit keys just yet. >.<
+
 A command line app that prompts the user to enter inputs from coin flips, or 4, 8, or 16-sided dice and turns them into a hexadecimal string. Prompted by my own desire to create a cryptographically secure Bitcoin private key offline using dice, and my unhappiness with relying on SHA-256 to produce truly random output, as "dice-wallet" does.
 
 Build instructions:
