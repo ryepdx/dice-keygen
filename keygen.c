@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <math.h>
+#include <gmp.h>
 
 unsigned int get_rng_ceil() {
     unsigned int rng_ceil;
@@ -57,7 +59,7 @@ int main() {
     unsigned int bit_length;
     unsigned int rng_ceil;
     unsigned int key_size;
-    unsigned int key;
+    mpz_t key;
     unsigned int bits;
     char generate_keys = 'y';
 
@@ -68,24 +70,27 @@ int main() {
 
     while (generate_keys == 'y' || generate_keys == 'Y') {
         bits = 0;
-        key = 0;
+        mpz_init(key);
         key_size = get_key_size();
 
         while (bits < key_size) {
             bits += bit_length;
 
             if (bits > key_size) {
-                key = (key << (key_size % bit_length)) | ((get_rng_input(rng_ceil)-1) & ((1 << ((key_size % bit_length)+1))-1));
+                mpz_mul_ui(key, key, (int) pow(2, key_size % bit_length));
+                mpz_add_ui(key, key, ((get_rng_input(rng_ceil)-1) & ((int) pow(2, (key_size % bit_length)+1)-1)));
                 bits = key_size;
             } else {
-                key = (key << bit_length) | (get_rng_input(rng_ceil)-1);
+                mpz_mul_ui(key, key, (int) pow(2, bit_length));
+                mpz_add_ui(key, key, (get_rng_input(rng_ceil)-1));
             }
 
             printf("%d of %d bits generated...\n", bits, key_size);
         }
 
-        printf("Your key is %x\n", key);
-        puts("Generate another? [y/n]");
+        printf("Your key is:\n 0x");
+        mpz_out_str(stdout, 16, key);
+        puts("\nGenerate another? [y/n]");
 
         generate_keys = getchar();
         while (generate_keys != 'y' && generate_keys != 'Y' && generate_keys != 'n' && generate_keys != 'N') {
