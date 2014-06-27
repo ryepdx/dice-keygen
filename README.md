@@ -7,4 +7,7 @@ Build instructions:
 
     gcc -o keygen keygen.c
 
+To go from the hexadecimal private key to a Bitcoin private key and public address with bash (preferably using a Linux live image on an offline, air-gapped computer), use [Lucien Grondilu's bitcoin-bash-tools](https://github.com/grondilu/bitcoin-bash-tools). Assuming you go this route and download `bitcoin.sh` from that project, use it like so:
 
+    source bitcoin.sh
+    newBitcoinKey 0x<your hexadecimal key goes here>
