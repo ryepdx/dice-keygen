@@ -11,3 +11,5 @@ To go from the hexadecimal private key to a Bitcoin private key and public addre
 
     source bitcoin.sh
     newBitcoinKey 0x<your hexadecimal key goes here>
+
+I've also included a copy of Lucien's script in this repository in case the one hosted under his account ever goes offline or is compromised.
