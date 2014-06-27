@@ -88,7 +88,7 @@ int main() {
             printf("%d of %d bits generated...\n", bits, key_size);
         }
 
-        printf("Your key is:\n 0x");
+        printf("Your key is:\n0x");
         mpz_out_str(stdout, 16, key);
         puts("\nBe sure to run this through newBitcoinKey in bitcoin.sh first if you are planning on using this to seed a Bitcoin address!");
         puts("Generate another? [y/n]");
