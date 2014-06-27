@@ -90,7 +90,8 @@ int main() {
 
         printf("Your key is:\n 0x");
         mpz_out_str(stdout, 16, key);
-        puts("\nGenerate another? [y/n]");
+        puts("\nBe sure to run this through newBitcoinKey in bitcoin.sh first if you are planning on using this to seed a Bitcoin address!");
+        puts("Generate another? [y/n]");
 
         generate_keys = getchar();
         while (generate_keys != 'y' && generate_keys != 'Y' && generate_keys != 'n' && generate_keys != 'N') {
