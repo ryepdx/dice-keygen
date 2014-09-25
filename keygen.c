@@ -55,7 +55,7 @@ int is_power_of_two (unsigned int x) {
     if (x < 2) { return 0; }
 
     while (((x % 2) == 0) && x > 1) {
-        x /= 2;
+        x = x >> 1;
     }
 
     return (x == 1);
