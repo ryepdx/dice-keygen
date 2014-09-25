@@ -1,6 +1,13 @@
 #include <stdio.h>
-#include <math.h>
-#include <gmp.h>
+#include <limits.h>
+
+#define BITMASK(b) (1 << ((b) % CHAR_BIT))
+#define BITSLOT(b) ((b) / CHAR_BIT)
+#define BITSET(a, b) ((a)[BITSLOT(b)] |= BITMASK(b))
+#define BITCLEAR(a, b) ((a)[BITSLOT(b)] &= ~BITMASK(b))
+#define BITTEST(a, b) ((a)[BITSLOT(b)] & BITMASK(b))
+#define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
+#define HEXBITS 4
 
 unsigned int get_rng_ceil() {
     unsigned int rng_ceil;
@@ -59,7 +66,6 @@ int main() {
     unsigned int bit_length;
     unsigned int rng_ceil;
     unsigned int key_size;
-    mpz_t key;
     unsigned int bits;
     char generate_keys = 'y';
 
@@ -70,26 +76,42 @@ int main() {
 
     while (generate_keys == 'y' || generate_keys == 'Y') {
         bits = 0;
-        mpz_init(key);
         key_size = get_key_size();
 
-        while (bits < key_size) {
-            bits += bit_length;
+        char key[BITNSLOTS(key_size)];
 
-            if (bits > key_size) {
-                mpz_mul_ui(key, key, (int) pow(2, key_size % bit_length));
-                mpz_add_ui(key, key, ((get_rng_input(rng_ceil)-1) & ((int) pow(2, (key_size % bit_length)+1)-1)));
-                bits = key_size;
-            } else {
-                mpz_mul_ui(key, key, (int) pow(2, bit_length));
-                mpz_add_ui(key, key, (get_rng_input(rng_ceil)-1));
+        while (bits < key_size) {
+            input = (get_rng_input(rng_ceil) - 1);
+
+            for (int i = 0; i < bit_length && bits < key_size; i++) {
+                if (input % 2 == 1) {
+                    BITSET(key, bits);
+                } else {
+                    BITCLEAR(key, bits);
+                }
+                input = input >> 1;
+                bits += 1;
             }
 
             printf("%d of %d bits generated...\n", bits, key_size);
         }
 
         printf("Your key is:\n0x");
-        mpz_out_str(stdout, 16, key);
+        
+        unsigned int chunk = 0;
+        for (int i = 0; i < bits; i++) {
+            if (BITTEST(key, i)) {
+                chunk += 1;
+            }
+
+            if (i > 0 && (i+1 % HEXBITS == 0 || i+1 == bits)) {
+                printf("%X", chunk);
+                chunk = 0;
+            } else {
+                chunk = chunk << 1;
+            }
+        }
+
         puts("\nBe sure to run this through newBitcoinKey in bitcoin.sh first if you are planning on using this to seed a Bitcoin address!");
         puts("Generate another? [y/n]");
 
