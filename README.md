@@ -5,9 +5,7 @@ A command line app that prompts the user to enter inputs from coin flips, or 4, 
 
 Build instructions:
 
-    gcc -o keygen keygen.c -lgmp -lm
-
-Requires [the GNU Multiple Precision Arithmetic Library](https://gmplib.org/).
+    gcc -o keygen keygen.c -std=c99
 
 If you are using this utility to create a Bitcoin private key, specify a bit length of at most 256 when prompted. Also, make sure that the generated hexadecimal string is not larger than `FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141`, which is the maximum value that can be turned into a Bitcoin private key, according to [the wiki](https://en.bitcoin.it/wiki/Private_key#Range_of_valid_private_keys).
 
