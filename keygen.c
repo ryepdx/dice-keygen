@@ -104,7 +104,7 @@ int main() {
                 chunk += 1;
             }
 
-            if (i > 0 && (i+1 % HEXBITS == 0 || i+1 == bits)) {
+            if (i > 0 && ((i+1) % HEXBITS == 0 || i+1 == bits)) {
                 printf("%X", chunk);
                 chunk = 0;
             } else {
